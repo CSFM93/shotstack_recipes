@@ -1,0 +1,17 @@
+{
+  "name": "recipes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "recipes.js",
+  "scripts": {
+    "start": "node recipes.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "airtable": "^0.11.5",
+    "dotenv": "^16.0.3",
+    "shotstack-sdk": "^0.2.0"
+  }
+}
