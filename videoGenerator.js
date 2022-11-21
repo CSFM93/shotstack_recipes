@@ -27,7 +27,7 @@ let renderVideo = async (record) => {
   let renderResponse = await api.postRender(edit);
   if (renderResponse.success) {
     let renderId = renderResponse.response.id;
-    console.log("rendering", record.fields.Title,renderId)
+    console.log("rendering", record.fields.Title, renderId);
     return renderId;
   } else {
     return undefined;
