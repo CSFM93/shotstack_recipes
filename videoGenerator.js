@@ -18,6 +18,7 @@ let renderVideo = async (record) => {
 
   let timeline = template.timeline;
   let output = template.output;
+  
   let mergeFields = getMergeFields(record);
 
   let edit = new Shotstack.Edit();

@@ -66,6 +66,8 @@ With the command above you installed the following dependencies:
 
 ## Retrieving the records stored in Airtable
 
+In this section, you will learn how to use the `airtable` module to retrieve the records stored in your Recipes' table.
+
 In your project root directory create a file name `recipes.js` and add the following code to it:
 
 ```js
@@ -78,7 +80,7 @@ let getRecipes = async () => {
   let table = base.table("Recipes");
 
   table.select().all(function (err, records) {
-    records.forEach(async (record, i) => {
+    records.forEach(async (record) => {
       console.log("recipe", record.fields.Title);
     });
   });
@@ -86,16 +88,45 @@ let getRecipes = async () => {
 
 getRecipes();
 ```
+In the block of code a above, first you required the `airtable` and `dotenv` modules.
 
-EXPLAIN
+Bellow the require statements, you created a function named `getRecipes()`. This function will be responsible for retrieving the records stored in your Recipes's table. After creating this function you added a line of code to call it.
 
-Run the file to see the records:
+Inside the `getRecipes()` function, you used the `airtable` module to create a connection to the Airtable API, passed your API key as an argument and stored the object returned in a variable name `airtable`.
+
+After establishing a connection with Airtable API, you connected to the Airtable Base and Recipes' table that you created in the previous section, by passing the base ID and table name to methods `airtable.base()` and `airtable.table()` respectively.
+
+Once the connection to the Recipes' table was established, you used the `table.select().all()` method to retrieved all the records stored in the table.
+
+You used the `forEach` loop to go through all the records and print the recipe's title for each record found.
+
+Lastly, you added a line of code to call the `getRecipes()` function.
+
+
+Go to your terminal, and use the following command to run the `recipes.js` file and see the recipes' titles printed on your rerminal:
 
 ```bash
 npm start
 ```
 
+You should see an output similar to this:
+
+```text
+
+```
+
+
 ## Using the Shotstack API to render videos
+
+In this section, you will learn how to use the `shotstack-sdk` module to merge fields in a template and render videos.
+
+The template that you are going to use generate videos can be downloaded in the following [link](). Download the file and store it in your project's root directory under the name `template.json`.
+
+Here is an image taken from a video rendered with this template showing the what will change in in each video:
+
+![image taken from a video rendered with a Shotstack using template](./media/showFields.jpg)
+
+You will take the Date, Title, and Image fields of each record, merge it with the template and a render a video.
 
 Create a file named `videoGenerator.js` and add the following code to it:
 
@@ -114,7 +145,15 @@ let authenticate = () => {
 authenticate();
 ```
 
-EXPLAIN
+Here, first you required the `shotstack-sdk`, `fs`, and `dotenv` modules.
+
+After requiring the modules, you created a function named `authenticate()`. This function will be responsible for establishing a connection to the Shotstack API. 
+
+You started this function by creating a new Shotstack API client instance, and stored the object returned in a variable named `defaultClient`. Then, you set the client `basePath` property to `stage` to use the development sandbox.
+
+You completed the authentication process by creating a Developer key object and setting this object `apiKey` property to your Shotstack stage API key.
+
+Lastly, you added a line of code to call the `authenticate()` function.
 
 Add the following code bellow the `authenticate()` function.
 
@@ -126,6 +165,7 @@ let renderVideo = async (record) => {
 
   let timeline = template.timeline;
   let output = template.output;
+
   let mergeFields = getMergeFields(record);
 
   let edit = new Shotstack.Edit();
@@ -143,7 +183,20 @@ let renderVideo = async (record) => {
 };
 ```
 
-EXPLAIN
+Here, you created a function named `renderVideo()`. This function receives as an argument a record from the Recipes's table and renders a video.
+
+You started this function by using the `fs` module to read the `template.json` file, and then parsed and stored this file's content in a variable named `template`.
+
+After loading the template, you retrieved the video's timeline and output from the template and stored them in variables named `timeline` and `output` respectively.
+
+You then, passed the record to a function named `getMergeFields()` and stored the value returned in a variable named `mergeFields`. The `getMergeFields()` as the name suggests will merge the record's fields with the template. You will create this function shortly.
+
+After retrieving the `mergeFields`, you used the `shotstack-sdk` module to create a new Shotstack edit.
+
+With the Shotstack edit created, you set the timeline to the value stored in `timeline`, the output to the value stored in `output`, and the merge to value stored in the `mergeFields`.
+
+Lastly, you created a new Shotstack edit API object, called the `postRender()` method provided by this object and passed the Shotstack edit object to it as an argument to render the video. If the request to render the video is successful a render ID will be returned, but if it fails `undefined` will be returned instead. 
+
 
 Add the following code bellow the `renderVideo()` function:
 
@@ -163,7 +216,11 @@ let getMergeFields = (record) => {
 };
 ```
 
-EXPLAIN
+In the code above, you created the `getMergeFields()` function, that you called in the `renderVideo()` function. 
+
+In this function you are using the `MergeField()` method provided by the `shotstack-sdk` to merge the `date`,`title`, and `image_url` fields found in the template with the `Date`,`Title`,and `Image` fields  found in the `record` that this function receives as an argument. 
+
+After merging the fields you stored them in an array named `mergeFields` and returned the array.
 
 Add the following code bellow the `getMergeFields()` function:
 
@@ -177,7 +234,14 @@ let getRenderStatus = async (renderId) => {
 module.exports = { renderVideo, getRenderStatus };
 ```
 
-EXPLAIN
+Here, first, you created a function named `getRenderStatus()`. This function receives as an argument a render ID and is responsible for polling the Shotstack API to find out a render status.
+
+You started this function by creating a Shotstack edit API object and storing this object in a variable named `api`.
+
+After creating the `api` object you called the `getRender()` method that this object provides and passed as an argument a render ID. Then, You stored the response returned by polling the Shotstack API in a variable named `response` and returned the variable.
+
+Lastly, you exported the `renderVideo()` and `getRenderStatus()` functions.
+
 
 ## Updating the records stored in Airtable
 
@@ -236,7 +300,7 @@ Go to your `getRecipes()` function and add the following code inside the `foreac
 
 ```js
 let getRecipes = async () => {
-  records.forEach(async (record, i) => {
+  records.forEach(async (record) => {
     console.log("recipe", record.fields.Title);
     let renderId = await renderVideo(record);
     if (renderId !== undefined) {

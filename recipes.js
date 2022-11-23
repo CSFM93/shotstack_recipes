@@ -9,7 +9,7 @@ let getRecipes = async () => {
   let table = base.table("Recipes");
 
   table.select().all(function (err, records) {
-    records.forEach(async (record, i) => {
+    records.forEach(async (record) => {
       console.log("recipe", record.fields.Title);
       let renderId = await renderVideo(record);
       if (renderId !== undefined) {
