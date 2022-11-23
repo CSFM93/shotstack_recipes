@@ -251,7 +251,7 @@ Go to the top of your `recipes.js` file and add the following line of code to it
 const { renderVideo, getRenderStatus } = require("./videoGenerator");
 ```
 
-EXPLAIN
+In the line above, you requited the `renderVideo()` and `getRenderStatus()` functions.
 
 Add the following function bellow the `getRecipes()` function:
 
@@ -272,7 +272,7 @@ let getVideoURL = async (renderId) => {
 };
 ```
 
-EXPLAIN
+Here, you created a function named `getVideoURL()`. This function will be responsible for calling the `getRenderStatus()` function every 3 seconds and check if the video rendering finished by checking if the `response.status` is equal to `done`. Once the video rendering finishes the video url will be retrieved from the `response`, stored in a variable named `url` and then returned.
 
 Add the following function bellow the `getVideoURL()` function:
 
