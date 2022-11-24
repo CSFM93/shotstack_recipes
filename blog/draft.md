@@ -1,4 +1,23 @@
-# How To Use The Airtable API, The Shotstack API, and Javascript To Build An Automated Video Generator
+---
+layout: layouts/blog.njk
+title: How to use the Airtable API, the Shotstack API, and Javascript to build an automated video generator
+name: How to build an automated video generator app
+type: Content
+description: Learn how to use the Airtable API, the Shotstack API, and Javascript to build an automated video generator app that uses a video template to generate multiple videos.
+date: 2022-11-24
+author: Carlos Mucuho
+thumbnail: thumbnail.jpg
+tags:
+  - how to
+  - learn
+  - airtable
+related:
+  - How to use the templates endpoint
+---
+
+
+# How to use the Airtable API, the Shotstack API, and Javascript to build an automated video generator
+
 
 ### Introduction
 
@@ -13,6 +32,7 @@ By the end of this tutorial you will have generated multiple videos that look li
 <video width="640" height="360" controls>
  <source src="./assets/demo.mp4" type="video/mp4">
 </video>
+
 
 ### Creating the project structure
 
@@ -72,6 +92,7 @@ With the command above you installed the following dependencies:
 - `shotstack-sdk`: the Node SDK for Shotstack. You are going to use this SDK to render a video for each record found in your Airtable Base table.
 - `airtable`: the official Airtable JavaScript library. You are going to use this library to retrieve and update records stored in your Airtable Base table.
 - `dotenv`: a zero-dependency module that loads environment variables from a `.env` file into `process.env`. You are going to use this module to retrieve the Airtable and Shotstack keys that you will store in your `.env` file.
+
 
 ### Storing the recipes in Airtable and retrieving The Airtable and Shotstack API keys
 
@@ -145,6 +166,7 @@ AIRTABLE_BASE_ID="Your Airtable base ID"
 AIRTABLE_API_KEY="Your Airtable API key"
 ```
 
+
 ### Retrieving the records stored in Airtable
 
 In this section, you will learn how to use the `airtable` module to retrieve the records stored in your Recipes table.
@@ -193,7 +215,15 @@ npm start
 You should see an output similar to this:
 
 ```text
-
+recipe Honey Mustard Pork Chops With Capers & Mustard Greens
+recipe Chinese Fried Rice
+recipe Simple Pasta Toss
+recipe Sheet Pan Buffalo Cauliflower With Roasted Chickpeas & Kale
+recipe Baked Shrimp & Orzo With Chickpeas, Lemon & Dill
+recipe Stuffed Pork Chops
+recipe Baked Pollock
+recipe Quick Weeknight Pizza With Ricotta, Broccolini & Sausage
+. . .
 ```
 
 ### Using the Shotstack API to render videos
@@ -323,6 +353,7 @@ After creating the `api` object you called the `getRender()` method that this ob
 
 Lastly, you exported the `renderVideo()` and `getRenderStatus()` functions.
 
+
 ### Updating the records stored in Airtable
 
 In this section, you will import the functions you exported in the previous section to render a video for each record found in the Recipes's table, and then you will create a function to update the record's Video URL field.
@@ -424,6 +455,9 @@ Open your browser, navigate to [Airtable's website](https://airtable.com), selec
 
 ![Video URL field being updated after Shotstack finishes rendering]()
 
+
 ### Conclusion
 
-In this tutorial, you learned how to use the Airtable API and Shotstack API to quickly generate multiple videos. For more information on how to use these APIs please read the [Airtable API Documentation](https://airtable.com/developers/web/api/introduction) and the [Shotstack API documentation](https://shotstack.io/docs/api/#shotstack).
+In this tutorial, first, you learned how to use the Airtable API to retrieve all records stored in a table. You then learned how to use the Shotstack API to merge a record's fields with a template and render a video. Lastly, you learned how to retrieve the rendered video URL and put it in a record's Video URL field.
+
+For more information on how to use these APIs please read the [Airtable API Documentation](https://airtable.com/developers/web/api/introduction) and the [Shotstack API documentation](https://shotstack.io/docs/api/#shotstack).
