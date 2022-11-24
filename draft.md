@@ -62,7 +62,26 @@ With the command above you installed the following dependencies:
 - `airtable`: the official Airtable JavaScript library. You are going to use this library to retrieve and update records stored in your Airtable Base table.
 - `dotenv`: a zero-dependency module that loads environment variables from a `.env` file into `process.env`. You are going to use this module to retrieve the Airtable and Shotstack keys that you will store in your `.env` file.
 
+
 ## Storing the recipes in Airtable and retrieving The Airtable and Shotstack API keys
+
+In this section, you will learn how to store data in Airtable, and how to create and retrieve Airtable and Shotstack API keys.
+
+Open your browser, first Download the following ![csv file]() containing the data that you are going to use to populate your table.
+
+
+After downloading the csv file, navigate to [Airtable's website](https://airtable.com), and sign it to your account. 
+
+Create a new Airtable base with the name "Shotstack".
+
+![Creating an Airtable table named Shotstack]()
+
+
+Inside  the base named "Shotstack", create an new Airtable table named "Recipes", and import the data stored in your csv file.
+
+![Creating an Airtable table named Recipes]()
+
+
 
 ## Retrieving the records stored in Airtable
 
@@ -245,6 +264,8 @@ Lastly, you exported the `renderVideo()` and `getRenderStatus()` functions.
 
 ## Updating the records stored in Airtable
 
+In this section, you will import the functions you exported in the previous section to render a video for each record found in the Recipes's table, and then you will create a function to update the record's Video URL field.
+
 Go to the top of your `recipes.js` file and add the following line of code to it:
 
 ```js
@@ -294,7 +315,11 @@ let updateVideoURLField = (table, recordID, videoURL) => {
 };
 ```
 
-EXPLAIN
+In the block of code above, you created a function named `updateVideoURLField()`. This function takes as arguments the Recipes' table object, a record ID and a video URL. 
+
+This function is responsible for adding a video URL to a record by using the `table.update()` method. 
+
+If the record is successfully updated a message containing the record's title will be shown in the terminal but if an error occurs then the error will be shown in the terminal instead.
 
 Go to your `getRecipes()` function and add the following code inside the `foreach` loop:
 
@@ -312,6 +337,31 @@ let getRecipes = async () => {
 };
 ```
 
-EXPLAIN
+Here, you updated your `getRecipes()` function. Now, for each record found in the Recipes' table you called the `renderVideo()` function ,passed the record as an argument, and stored the value returned in a variable named `renderId`.
+
+After retrieving the render ID, you checked if the `renderId` is equal to `undefined`. If it is not `undefined`, you called the `getVideoURL()` function, passed the render id as an argument, and stored the value returned in a variable named `videoURL`.
+
+After retrieving the video URL, you called the `updateVideoURLField()` function, and passed the Recipes' table object, the record ID, and the video URL as arguments.
+
+Go back to your terminal, and use the following command to run your application:
+
+```bash
+npm start
+```
+
+You should see an output similar to this:
+
+```text
+
+```
+
+If your output looks like the one above, it means that your application is running as it should.
+
+Open your browser, navigate to [Airtable's website](https://airtable.com), select the base containing your Recipes' table and watch the Video URL being updated .
+
+
+![Video URL field being updated after Shotstack finishes rendering]()
+
+
 
 ## Conclusion
