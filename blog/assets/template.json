@@ -1,0 +1,128 @@
+{
+  "timeline": {
+    "soundtrack": {
+      "src": "https://audio-previews.elements.envatousercontent.com/files/394983134/preview.mp3",
+      "effect": "fadeInFadeOut"
+    },
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "html",
+              "html": "<p data-html-type=\"text\">Dish Of The Day</p>",
+              "css": "p { color: #ffffff; font-size: 70px; font-family: Montserrat ExtraBold; text-align: center; }",
+              "width": 612,
+              "height": 97
+            },
+            "fit": "none",
+            "scale": 1,
+            "offset": {
+              "x": -0.006,
+              "y": 0.322
+            },
+            "position": "center",
+            "transition": {
+              "in": "slideUp",
+              "out": "slideDown"
+            },
+            "start": 1,
+            "length": 6
+          },
+          {
+            "asset": {
+              "type": "html",
+              "html": "<p data-html-type=\"text\">{{date}}</p>",
+              "css": "p { color: #ffffff; font-size: 35px; font-family: Arapey; text-align: center; }",
+              "width": 413,
+              "height": 47
+            },
+            "fit": "none",
+            "scale": 1,
+            "offset": {
+              "x": -0.013,
+              "y": -0.278
+            },
+            "position": "center",
+            "start": 1.3,
+            "length": 5.7,
+            "transition": {
+              "in": "slideUp",
+              "out": "slideDown"
+            }
+          },
+          {
+            "asset": {
+              "type": "html",
+              "html": "<p data-html-type=\"text\">{{title}}</p>",
+              "css": "p { color: #ffffff; font-size: 30px; font-family: Montserrat ExtraBold; text-align: center; }",
+              "width": 471,
+              "height": 114
+            },
+            "start": 1.4,
+            "length": 5.7,
+            "fit": "none",
+            "scale": 1,
+            "offset": {
+              "x": -0.004,
+              "y": -0.379
+            },
+            "position": "center",
+            "transition": {
+              "in": "slideUp",
+              "out": "slideDown"
+            }
+          },
+          {
+            "asset": {
+              "type": "image",
+              "src": "{{image_url}}"
+            },
+            "offset": {
+              "x": -0.008,
+              "y": 0.002
+            },
+            "position": "center",
+            "fit": "crop",
+            "scale": 0.454,
+            "start": 1.5,
+            "length": 5.5,
+            "transition": {
+              "in": "slideRightSlow",
+              "out": "slideRightSlow"
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://assets.mixkit.co/videos/preview/mixkit-spreading-cheese-on-a-pizza-42475-large.mp4"
+            },
+            "start": 0,
+            "filter": "darken",
+            "opacity": 0.6,
+            "offset": {
+              "x": 0.248,
+              "y": -0.003
+            },
+            "position": "center",
+            "scale": 1,
+            "length": 7,
+            "fit": "none"
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "size": {
+      "width": 720,
+      "height": 720
+    }
+  }
+}
