@@ -1,57 +1,53 @@
-const Shotstack = require("shotstack-sdk");
-const fs = require("fs");
-require("dotenv").config();
+/* eslint-disable no-console */
+const Shotstack = require('shotstack-sdk');
+const fs = require('fs');
+require('dotenv').config();
 
-let authenticate = () => {
-  const defaultClient = Shotstack.ApiClient.instance;
-  defaultClient.basePath = "https://api.shotstack.io/stage";
+const defaultClient = Shotstack.ApiClient.instance;
+defaultClient.basePath = 'https://api.shotstack.io/stage';
 
-  const DeveloperKey = defaultClient.authentications["DeveloperKey"];
-  DeveloperKey.apiKey = process.env.STAGE_API_KEY;
-};
-authenticate();
+const { DeveloperKey } = defaultClient.authentications;
+DeveloperKey.apiKey = process.env.SHOTSTACK_KEY;
 
-let renderVideo = async (record) => {
-  let template = JSON.parse(
-    fs.readFileSync("template.json", { encoding: "utf-8" })
-  );
+const getMergeFields = (record) => {
+  const mergeDateField = new Shotstack.MergeField();
+  mergeDateField.setFind('date').setReplace(record.fields.Date);
 
-  let timeline = template.timeline;
-  let output = template.output;
-  
-  let mergeFields = getMergeFields(record);
+  const mergeTitleField = new Shotstack.MergeField();
+  mergeTitleField.setFind('title').setReplace(record.fields.Title);
 
-  let edit = new Shotstack.Edit();
-  edit.setTimeline(timeline).setOutput(output).setMerge(mergeFields);
+  const mergeImageField = new Shotstack.MergeField();
+  mergeImageField.setFind('image_url').setReplace(record.fields.Image);
 
-  const api = new Shotstack.EditApi();
-  let renderResponse = await api.postRender(edit);
-  if (renderResponse.success) {
-    let renderId = renderResponse.response.id;
-    console.log("rendering", record.fields.Title, renderId);
-    return renderId;
-  } else {
-    return undefined;
-  }
-};
-
-let getMergeFields = (record) => {
-  let mergeDateField = new Shotstack.MergeField();
-  mergeDateField.setFind("date").setReplace(record.fields.Date);
-
-  let mergeTitleField = new Shotstack.MergeField();
-  mergeTitleField.setFind("title").setReplace(record.fields.Title);
-
-  let mergeImageField = new Shotstack.MergeField();
-  mergeImageField.setFind("image_url").setReplace(record.fields.Image);
-
-  let mergeFields = [mergeDateField, mergeTitleField, mergeImageField];
+  const mergeFields = [mergeDateField, mergeTitleField, mergeImageField];
   return mergeFields;
 };
 
-let getRenderStatus = async (renderId) => {
+const renderVideo = async (record) => {
+  const template = JSON.parse(
+    fs.readFileSync('template.json', { encoding: 'utf-8' }),
+  );
+
+  const { timeline, output } = template;
+
+  const mergeFields = getMergeFields(record);
+
+  const edit = new Shotstack.Edit();
+  edit.setTimeline(timeline).setOutput(output).setMerge(mergeFields);
+
   const api = new Shotstack.EditApi();
-  let { response } = await api.getRender(renderId);
+  const renderResponse = await api.postRender(edit);
+  if (renderResponse.success) {
+    const renderId = renderResponse.response.id;
+    console.log('rendering', record.fields.Title, renderId);
+    return renderId;
+  }
+  return undefined;
+};
+
+const getRenderStatus = async (renderId) => {
+  const api = new Shotstack.EditApi();
+  const { response } = await api.getRender(renderId);
   return response;
 };
 
